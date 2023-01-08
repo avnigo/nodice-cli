@@ -81,7 +81,7 @@ class Diceware:
 
 def parser():
     parser = argparse.ArgumentParser(
-        description="Generate a diceware passphrase from a given dictionary.",
+        description="Generate diceware passphrases from wordlists.",
     )
     parser.add_argument(
         "--file",
@@ -136,7 +136,9 @@ def parser():
     return parser.parse_args()
 
 
-def main(args: argparse.Namespace):
+if __name__ == "__main__":
+    args = parser()
+
     passphrase = Diceware(
         file=args.file,
         entropy=args.entropy,
@@ -149,7 +151,3 @@ def main(args: argparse.Namespace):
 
     if args.verbose:
         print(passphrase)
-
-
-if __name__ == "__main__":
-    main(parser())

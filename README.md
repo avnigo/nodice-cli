@@ -1,6 +1,6 @@
 # simple-diceware
 
-Yet another diceware passphrase generator, written in python and simple to audit quickly.
+Yet another diceware passphrase generator.
 
 # Usage
 
@@ -8,7 +8,7 @@ Yet another diceware passphrase generator, written in python and simple to audit
 $ python diceware.py --help
 usage: diceware.py [-h] [--file FILE] [--words WORDS] [--delimiter DELIMITER] [--spacer SPACER] [--entropy ENTROPY] [--dice DICE] [--show-rolls] [--verbose]
 
-Generate a diceware passphrase from a dictionary file.
+Generate diceware passphrases from wordlists.
 
 options:
   -h, --help                            show this help message and exit
