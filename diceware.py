@@ -87,7 +87,7 @@ def parser():
         "--file",
         "-f",
         help="diceware dictionary file (default: `%(default)s`)",
-        default=Path("./eff_large_wordlist.txt"),
+        default=Path("./wordlists/eff_large_wordlist.txt"),
         type=Path,
     )
     parser.add_argument(
