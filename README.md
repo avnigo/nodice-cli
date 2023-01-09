@@ -5,20 +5,20 @@ Yet another diceware passphrase generator.
 # Usage
 
 ```console
-$ python diceware.py --help
-usage: diceware.py [-h] [--file FILE] [--words WORDS] [--delimiter DELIMITER] [--spacer SPACER] [--entropy ENTROPY] [--dice DICE] [--show-rolls] [--verbose]
+usage: diceware.py [-h] [--words WORDS] [--entropy ENTROPY] [--spacer SPACER] [--dice DICE] [--sides SIDES] [--show-rolls] [--file FILE] [--delimiter DELIMITER] [--verbose]
 
 Generate diceware passphrases from wordlists.
 
 options:
   -h, --help                            show this help message and exit
-  --file FILE, -f FILE                  diceware dictionary file (default: `wordlists/eff_large_wordlist.txt`)
   --words WORDS, -w WORDS               number of words (default: `5`)
-  --delimiter DELIMITER, -t DELIMITER   dictionary delimiter (default: $'\t')
-  --spacer SPACER, -s SPACER            separate words with a spacer (default: ` `)
   --entropy ENTROPY, -e ENTROPY         set minimum bits of entropy
+  --spacer SPACER, -s SPACER            separate words with a spacer (default: ` `)
   --dice DICE, -d DICE                  number of dice per word; ignores --file and --entropy options
+  --sides SIDES, -D SIDES               number of sides per die (default: `6`)
   --show-rolls, -r                      show dice rolls only
+  --file FILE, -f FILE                  diceware dictionary file (default: `wordlists/eff_large_wordlist.txt`)
+  --delimiter DELIMITER, -t DELIMITER   dictionary delimiter (default: $'\t')
   --verbose, -v                         show entropy information
 ```
 
@@ -88,6 +88,16 @@ goldfish depot unwrinkled tiger caviar rustproof urgent urethane
 > 8 random words from a 1296-word list yield 82.7 bits of entropy.
 ```
 
+- Set the **number of sides** of the dice used (e.g. two-sided coin):
+
+````console
+$ python diceware.py -v -f wordlists/bip_0039.txt -w 12 -D2
+mountain noble arctic joke hero fruit novel palace quarter genuine rather price
+
+> 12 random words from a 2048-word list yield 132.0 bits of entropy.```
+````
+
 # Attribution
 
-- Wordlists available from the [EFF](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases).
+- [EFF wordlists](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases).
+- [BIP-0039 wordlists](https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md)
