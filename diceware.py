@@ -3,9 +3,8 @@ import math
 import random
 
 from dataclasses import dataclass
+from os import linesep
 from pathlib import Path
-
-CRLF = "\n"
 
 
 @dataclass
@@ -37,7 +36,7 @@ class Diceware:
                 roll: word
                 for roll, word in (
                     line.split(delimiter)
-                    for line in file.read_text().split(CRLF)
+                    for line in file.read_text().split(linesep)
                     if self.delimiter in line
                 )
             }
@@ -60,7 +59,7 @@ class Diceware:
                 wordlist.get(roll, "NULL")
                 if (self.wordlist and not self.no_words) or not self.num_dice
                 else roll,
-                end=CRLF if index + 1 == self.num_words else spacer,
+                end=linesep if index + 1 == self.num_words else spacer,
                 # flush=True,
             )
 
@@ -74,7 +73,7 @@ class Diceware:
     def __repr__(self):
         return (
             (
-                f"{CRLF}> {self.num_words} random words from a {self.wordlist_length}-word list "
+                f"{linesep}> {self.num_words} random words from a {self.wordlist_length}-word list "
                 f"yield {self.calc_entropy():.1f} bits of entropy."
             )
             if self.wordlist

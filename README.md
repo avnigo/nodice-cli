@@ -43,7 +43,7 @@ citric trimming whole unlivable drivable percent suitor clump
 - Setting the **minimum bits of entropy** for the passphrase will generate the appropriate amount of words:
 
 ```console
-$ python diceware.py -v --entropy 120 --s"-"
+$ python diceware.py -v --entropy 120 -s"-"
 glade-unmoved-pacemaker-gallon-jogging-sculpture-gentleman-disburse-unsaddle-surprise
 
 > 10 random words from a 7776-word list yield 129.2 bits of entropy.
