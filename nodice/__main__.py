@@ -1,7 +1,6 @@
 import argparse
 import math
 import random
-
 from dataclasses import dataclass
 from os import linesep
 from pathlib import Path
@@ -126,7 +125,7 @@ def parser():
         "--file",
         "-f",
         help="diceware dictionary file (default: `%(default)s`)",
-        default=Path("./wordlists/eff_large_wordlist.txt"),
+        default=Path(__file__).parent / "wordlists/eff_large_wordlist.txt",
         type=Path,
     )
     parser.add_argument(
@@ -145,7 +144,7 @@ def parser():
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parser()
 
     passphrase = Diceware(
@@ -161,3 +160,7 @@ if __name__ == "__main__":
 
     if args.verbose:
         print(passphrase)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,11 +1,31 @@
-# simple-diceware
+# nodice
 
-Yet another diceware passphrase generator.
+A simple diceware generator with no dependencies.
 
-# Usage
+## 📦 Setup
 
-```console
-usage: diceware.py [-h] [--words WORDS] [--entropy ENTROPY] [--spacer SPACER] [--dice DICE] [--sides SIDES] [--show-rolls] [--file FILE] [--delimiter DELIMITER] [--verbose]
+### Clone the repository:
+
+```pwsh
+git clone https://github.com/avnigo/nodice-cli.git && cd nodice-cli
+```
+
+### [*Optional*] Install `nodice` to path:
+
+```pwsh
+python -m pip install .
+```
+
+#### Otherwise, use as follows inside the `nodice-cli` directory:
+
+```pwsh
+python nodice
+```
+
+## Usage
+
+```pwsh
+usage: nodice [-h] [--words WORDS] [--entropy ENTROPY] [--spacer SPACER] [--dice DICE] [--sides SIDES] [--show-rolls] [--file FILE] [--delimiter DELIMITER] [--verbose]
 
 Generate diceware passphrases from wordlists.
 
@@ -22,19 +42,19 @@ options:
   --verbose, -v                         show entropy information
 ```
 
-# Examples
+## Examples
 
-- Running `diceware.py` without any options falls back to defaults: **5 random words** from `eff_large_wordlist.txt`.
+- Running `nodice` or `python -m nodice` without any options falls back to defaults: **5 random words** from `eff_large_wordlist.txt`.
 
 ```console
-$ python diceware.py
+$ nodice
 anybody desecrate battalion agility skid
 ```
 
 - Choosing the **number of words** to generate:
 
 ```console
-$ python diceware.py --verbose --words 8
+$ nodice --verbose --words 8
 citric trimming whole unlivable drivable percent suitor clump
 
 > 8 random words from a 7776-word list yield 103.4 bits of entropy.
@@ -43,7 +63,7 @@ citric trimming whole unlivable drivable percent suitor clump
 - Setting the **minimum bits of entropy** for the passphrase will generate the appropriate amount of words:
 
 ```console
-$ python diceware.py -v --entropy 120 -s"-"
+$ nodice -v --entropy 120 -s"-"
 glade-unmoved-pacemaker-gallon-jogging-sculpture-gentleman-disburse-unsaddle-surprise
 
 > 10 random words from a 7776-word list yield 129.2 bits of entropy.
@@ -52,21 +72,21 @@ glade-unmoved-pacemaker-gallon-jogging-sculpture-gentleman-disburse-unsaddle-sur
 - Only **show dice rolls** generated based on the provided wordlist:
 
 ```console
-$ python diceware.py -w 10 --show-rolls --file my_printed_wordlist.txt
+$ nodice -w 10 --show-rolls --file my_printed_wordlist.txt
 21162 54422 55235 46233 61313 62442 21411 23555 54232 55436
 ```
 
 - Use a **custom delimiter** to parse wordlist:
 
 ```console
-$ python diceware.py -w 7 --show-rolls --file my_wordlist.csv --delimiter ","
+$ nodice -w 7 --show-rolls --file my_wordlist.csv --delimiter ","
 23611 62433 55136 12534 55642 51415 13611
 ```
 
 - Set the **number of dice** to roll for each word:
 
 ```console
-$ python diceware.py -d6 -w 10 -s $'\n'
+$ nodice -d6 -w 10 -s $'\n'
 464645
 664516
 111426
@@ -82,7 +102,7 @@ $ python diceware.py -d6 -w 10 -s $'\n'
 - Use an alternative EFF wordlist:
 
 ```console
-$ python diceware.py -v -f wordlists/eff_short_wordlist_2_0.txt -w 8
+$ nodice -v -f nodice/wordlists/eff_short_wordlist_2_0.txt -w 8
 goldfish depot unwrinkled tiger caviar rustproof urgent urethane
 
 > 8 random words from a 1296-word list yield 82.7 bits of entropy.
@@ -91,13 +111,13 @@ goldfish depot unwrinkled tiger caviar rustproof urgent urethane
 - Set the **number of sides** of the dice used (e.g. two-sided coin):
 
 ```console
-$ python diceware.py -v -f wordlists/bip_0039.txt -w 12 -D2
+$ nodice -v -f nodice/wordlists/bip_0039.txt -w 12 -D2
 mountain noble arctic joke hero fruit novel palace quarter genuine rather price
 
 > 12 random words from a 2048-word list yield 132.0 bits of entropy.
 ```
 
-# Attribution
+## Attribution
 
 - [EFF wordlists](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases)
 - [BIP-0039 wordlist](https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md)
