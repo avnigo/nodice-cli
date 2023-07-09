@@ -11,6 +11,17 @@ authors = [
 description = "A simple diceware generator with no dependencies."
 readme = "README.md"
 requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Security",
+    "Topic :: Utilities",
+]
 
 [project.scripts]
 nodice = "nodice.__main__:main"
+
+[project.urls]
+"Homepage" = "https://github.com/avnigo/nodice-cli"
+"Bug Tracker" = "https://github.com/avnigo/nodice-cli/issues"

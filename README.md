@@ -1,4 +1,4 @@
-# nodice
+# 🎲 nodice
 
 A simple diceware generator with no dependencies.
 
@@ -22,7 +22,7 @@ python -m pip install .
 python nodice
 ```
 
-## Usage
+## 📖 Usage
 
 ```pwsh
 usage: nodice [-h] [--words WORDS] [--entropy ENTROPY] [--spacer SPACER] [--dice DICE] [--sides SIDES] [--show-rolls] [--file FILE] [--delimiter DELIMITER] [--verbose]
@@ -42,7 +42,7 @@ options:
   --verbose, -v                         show entropy information
 ```
 
-## Examples
+## 🗒️ Examples
 
 - Running `nodice` or `python -m nodice` without any options falls back to defaults: **5 random words** from `eff_large_wordlist.txt`.
 
@@ -117,7 +117,7 @@ mountain noble arctic joke hero fruit novel palace quarter genuine rather price
 > 12 random words from a 2048-word list yield 132.0 bits of entropy.
 ```
 
-## Attribution
+## 🔗 Attribution
 
 - [EFF wordlists](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases)
 - [BIP-0039 wordlist](https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md)
