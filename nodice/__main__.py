@@ -2,6 +2,7 @@ import argparse
 import math
 import random
 from dataclasses import dataclass
+from itertools import product
 from os import linesep
 from pathlib import Path
 
@@ -9,12 +10,13 @@ from pathlib import Path
 @dataclass
 class Diceware:
     file: Path
-    entropy: int | None
+    entropy: int
     num_dice: int
     num_sides: int
-    num_words: int = 5
-    delimiter: str = "\t"
-    spacer: str = " "
+    num_words: int
+    delimiter: str
+    spacer: str
+    all_rolls: tuple = ()
     no_words: bool = False
 
     def __post_init__(self):
@@ -29,14 +31,36 @@ class Diceware:
         self.print_rolled_words(self.rolls, self.wordlist, self.spacer)
         del self.rolls
 
+    @staticmethod
+    def find_factor_pairs(num_words) -> tuple:
+        # TODO: Fix case where num_words is not a perfect power (clip to nearest lowest)
+        # TODO: Fix case where num_words has sides > 9 (e.g. 2500) because concatenation
+        return min(
+            (sides, dice)
+            for sides, dice in product(range(2, math.isqrt(num_words) + 1), repeat=2)
+            if sides**dice == num_words
+        )
+
+    def create_rolls(self) -> tuple:
+        self.num_sides, self.num_dice = self.find_factor_pairs(
+            len(self.file.read_text().splitlines())
+        )
+        return tuple(product(range(1, self.num_sides + 1), repeat=self.num_dice))
+
+    def get_roll_pair(self, index: int, word: str) -> tuple:
+        if not self.all_rolls:
+            self.all_rolls = self.create_rolls()
+        return ("".join(map(str, self.all_rolls[index])), word)
+
     def build_dict(self, file: Path, delimiter: str) -> dict[str, str] | None:
         return (
             {
                 roll: word
                 for roll, word in (
                     line.split(delimiter)
-                    for line in file.read_text().split(linesep)
                     if self.delimiter in line
+                    else self.get_roll_pair(index, line)
+                    for index, line in enumerate(file.read_text().splitlines())
                 )
             }
             if not self.num_dice or not self.num_sides
@@ -62,8 +86,8 @@ class Diceware:
                 # flush=True,
             )
 
-    def numwords_for_entropy(self, wordlist_length: int, min_entropy: int | None):
-        if min_entropy:
+    def numwords_for_entropy(self, wordlist_length: int, min_entropy: int):
+        if min_entropy != 0:
             self.num_words = int(math.ceil(min_entropy / math.log(wordlist_length, 2)))
 
     def calc_entropy(self) -> float:
