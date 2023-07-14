@@ -37,6 +37,7 @@ options:
   --dice DICE, -d DICE                  number of dice per word; ignores --file and --entropy options
   --sides SIDES, -D SIDES               number of sides per die (default: `6`)
   --show-rolls, -r                      show dice rolls only
+  --make-custom, -m                     generate keys (dice rolls) for custom wordlist
   --file FILE, -f FILE                  diceware dictionary file (default: `wordlists/eff_large_wordlist.txt`)
   --delimiter DELIMITER, -t DELIMITER   dictionary delimiter (default: $'\t')
   --verbose, -v                         show entropy information
@@ -115,6 +116,47 @@ $ nodice -v -f nodice/wordlists/bip_0039.txt -w 12 -D2
 mountain noble arctic joke hero fruit novel palace quarter genuine rather price
 
 > 12 random words from a 2048-word list yield 132.0 bits of entropy.
+```
+
+## 🛠️ Custom wordlists
+
+It is possible to use custom wordlists, either delimited alongside their corresponding dice rolls, or simply a bare list of words, as in the examples below respectively.
+
+- For delimited wordlists, the defaults apply (i.e., delimiter and number of sides), otherwise they would need to be passed in as arguments.
+
+```
+11111	abacus
+11112	abdomen
+11113	abdominal
+11114	abide
+11115	abiding
+11116	ability
+...
+```
+
+- In the case of a bare wordlist, it will attempt to generate the dice roll keys for a perfect-power-length wordlist (or otherwise truncated to the nearest perfect power length), assuming the base number is under 10 number of sides.
+
+```
+abacus
+abdomen
+abdominal
+abide
+abiding
+ability
+...
+```
+
+Running the following command with a bare wordlist creates the wordlist alongside the corresponding keys (dice rolls):
+
+```console
+$ nodice -m -t, -f bare_wordlist.txt | tail
+66656,zombie
+66661,zone
+66662,zoning
+66663,zookeeper
+66664,zoologist
+66665,zoology
+66666,zoom
 ```
 
 ## 🔗 Attribution

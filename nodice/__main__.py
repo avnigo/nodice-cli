@@ -16,11 +16,15 @@ class Diceware:
     num_words: int
     delimiter: str
     spacer: str
-    all_rolls: tuple = ()
+    custom_rolls: tuple = ()
     no_words: bool = False
+    generate_keys: bool = False
 
     def __post_init__(self):
         self.wordlist = self.build_dict(self.file, self.delimiter)
+
+        if self.generate_keys:
+            self.print_custom_rolls(self.wordlist)
 
         if self.wordlist:
             self.num_dice = len(next(iter(self.wordlist.keys())))
@@ -30,27 +34,6 @@ class Diceware:
         self.rolls = self.roll_dice(self.num_words, self.num_dice, self.num_sides)
         self.print_rolled_words(self.rolls, self.wordlist, self.spacer)
         del self.rolls
-
-    @staticmethod
-    def find_factor_pairs(num_words) -> tuple:
-        # TODO: Fix case where num_words is not a perfect power (clip to nearest lowest)
-        # TODO: Fix case where num_words has sides > 9 (e.g. 2500) because concatenation
-        return min(
-            (sides, dice)
-            for sides, dice in product(range(2, math.isqrt(num_words) + 1), repeat=2)
-            if sides**dice == num_words
-        )
-
-    def create_rolls(self) -> tuple:
-        self.num_sides, self.num_dice = self.find_factor_pairs(
-            len(self.file.read_text().splitlines())
-        )
-        return tuple(product(range(1, self.num_sides + 1), repeat=self.num_dice))
-
-    def get_roll_pair(self, index: int, word: str) -> tuple:
-        if not self.all_rolls:
-            self.all_rolls = self.create_rolls()
-        return ("".join(map(str, self.all_rolls[index])), word)
 
     def build_dict(self, file: Path, delimiter: str) -> dict[str, str] | None:
         return (
@@ -76,6 +59,39 @@ class Diceware:
             for _ in range(num_words)
         ]
 
+    def numwords_for_entropy(self, wordlist_length: int, min_entropy: int):
+        if min_entropy != 0:
+            self.num_words = int(math.ceil(min_entropy / math.log(wordlist_length, 2)))
+
+    def calc_entropy(self) -> float:
+        return math.log(self.wordlist_length, 2) * self.num_words
+
+    @staticmethod
+    def find_factor_pairs(num_words) -> tuple:
+        # TODO: Fix case where num_words is not a perfect power (clip to nearest lowest)
+        # TODO: Fix case where num_words has sides > 9 (e.g. 2500) because concatenation
+        return min(
+            (sides, dice)
+            for sides, dice in product(range(2, math.isqrt(num_words) + 1), repeat=2)
+            if sides**dice == num_words
+        )
+
+    def create_custom_rolls(self) -> tuple:
+        self.num_sides, self.num_dice = self.find_factor_pairs(
+            len(self.file.read_text().splitlines())
+        )
+        return tuple(product(range(1, self.num_sides + 1), repeat=self.num_dice))
+
+    def print_custom_rolls(self, wordlist):
+        for rolls, word in wordlist.items():
+            print(f"{rolls}{self.delimiter}{word}")
+        raise SystemExit
+
+    def get_roll_pair(self, index: int, word: str) -> tuple:
+        if not self.custom_rolls:
+            self.custom_rolls = self.create_custom_rolls()
+        return ("".join(map(str, self.custom_rolls[index])), word)
+
     def print_rolled_words(self, rolls, wordlist, spacer):
         for index, roll in enumerate(rolls):
             print(
@@ -83,15 +99,8 @@ class Diceware:
                 if (self.wordlist and not self.no_words) or not self.num_dice
                 else roll,
                 end=linesep if index + 1 == self.num_words else spacer,
-                # flush=True,
+                flush=True,
             )
-
-    def numwords_for_entropy(self, wordlist_length: int, min_entropy: int):
-        if min_entropy != 0:
-            self.num_words = int(math.ceil(min_entropy / math.log(wordlist_length, 2)))
-
-    def calc_entropy(self) -> float:
-        return math.log(self.wordlist_length, 2) * self.num_words
 
     def __repr__(self):
         return (
@@ -146,6 +155,12 @@ def parser():
         action="store_true",
     )
     parser.add_argument(
+        "--make-custom",
+        "-m",
+        help="generate keys (dice rolls) for custom wordlist",
+        action="store_true",
+    )
+    parser.add_argument(
         "--file",
         "-f",
         help="diceware dictionary file (default: `%(default)s`)",
@@ -180,6 +195,7 @@ def main():
         num_sides=args.sides,
         num_words=args.words,
         no_words=args.show_rolls,
+        generate_keys=args.make_custom,
     )
 
     if args.verbose:
