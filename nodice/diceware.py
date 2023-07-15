@@ -27,8 +27,8 @@ class Diceware:
 
         if self.wordlist:
             self.num_dice = len(next(iter(self.wordlist.keys())))
-            self.wordlist_length = len(self.wordlist)
-            self.numwords_for_entropy(self.wordlist_length, self.entropy)
+            self.wordlist_size = len(self.wordlist)
+            self.numwords_for_entropy(self.wordlist_size, self.entropy)
 
         self.rolls = self.roll_dice(self.num_words, self.num_dice, self.num_sides)
         self.print_rolled_words(self.rolls, self.wordlist, self.spacer)
@@ -63,22 +63,45 @@ class Diceware:
             self.num_words = int(math.ceil(min_entropy / math.log(wordlist_length, 2)))
 
     def calc_entropy(self) -> float:
-        return math.log(self.wordlist_length, 2) * self.num_words
+        return math.log(self.wordlist_size, 2) * self.num_words
 
     @staticmethod
-    def find_factor_pairs(num_words: int) -> tuple:
-        # TODO: Fix case where num_words is not a perfect power (clip to nearest lowest)
-        # TODO: Fix case where num_words has sides > 9 (e.g. 2500) because concatenation
-        return min(
-            (sides, dice)
-            for sides, dice in product(range(2, math.isqrt(num_words) + 1), repeat=2)
-            if sides**dice == num_words
+    def find_factor_pairs(wordlist_len: int) -> tuple[int, int]:
+        num_sides, num_dice = min(
+            (
+                (sides, dice)
+                for sides, dice in product(
+                    range(2, math.isqrt(wordlist_len) + 1), repeat=2
+                )
+                if sides**dice == wordlist_len
+            ),
+            default=(0, 0),
         )
+
+        # TODO: Fix case where num_words is not a perfect power (clip to nearest lowest)
+        if num_sides == 0:
+            print(
+                f"# Wordlist size ({wordlist_len} words) is not a perfect power, try "
+                "larger or smaller ones instead."
+            )
+            raise SystemExit(1)
+
+        # TODO: Fix case where num_words has sides > 9 (e.g. 2500) because concatenation
+        if num_sides > 9:
+            print(
+                f"# Wordlists requiring larger than 9-sided dice currently unsupported:"
+                f" a {wordlist_len}-word list requires {num_sides}-sided dice; try"
+                " larger or smaller wordlists instead."
+            )
+            raise SystemExit(1)
+
+        return num_sides, num_dice
 
     def create_custom_rolls(self) -> tuple:
         self.num_sides, self.num_dice = self.find_factor_pairs(
             len(self.file.read_text().splitlines())
         )
+
         return tuple(product(range(1, self.num_sides + 1), repeat=self.num_dice))
 
     def print_custom_rolls(self, wordlist: dict) -> None:
@@ -105,7 +128,7 @@ class Diceware:
         return (
             (
                 f"{linesep}> {self.num_words} random words from a "
-                f"{self.wordlist_length}-word list yield {self.calc_entropy():.1f} "
+                f"{self.wordlist_size}-word list yield {self.calc_entropy():.1f} "
                 f"bits of entropy."
             )
             if self.wordlist

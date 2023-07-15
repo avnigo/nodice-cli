@@ -135,7 +135,7 @@ It is possible to use custom wordlists, either delimited alongside their corresp
 ...
 ```
 
-- In the case of a bare wordlist, it will attempt to generate the dice roll keys for a perfect-power-length wordlist (or otherwise truncated to the nearest perfect power length), assuming the base number is under 10 number of sides.
+- In the case of a bare wordlist like the one below, dice roll keys for a [perfect-power-length wordlist](https://en.wikipedia.org/wiki/Perfect_power) will be generated when possible using smaller than 10-sided dice, whereas other length wordlists are unhandled for now.
 
 ```
 abacus
