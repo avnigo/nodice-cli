@@ -6,7 +6,7 @@ A simple diceware generator with no dependencies.
 
 ### Clone the repository:
 
-```pwsh
+```
 git clone https://github.com/avnigo/nodice-cli.git && cd nodice-cli
 ```
 
@@ -24,7 +24,8 @@ python nodice
 
 ## 📖 Usage
 
-```pwsh
+```console
+$ nodice --help
 usage: nodice [-h] [--words WORDS] [--entropy ENTROPY] [--spacer SPACER] [--dice DICE] [--sides SIDES] [--show-rolls] [--file FILE] [--delimiter DELIMITER] [--verbose]
 
 Generate diceware passphrases from wordlists.
@@ -146,10 +147,10 @@ ability
 ...
 ```
 
-Running the following command with a bare wordlist creates the wordlist alongside the corresponding keys (dice rolls):
+Using the `--make-custom` flag with a bare wordlist creates the wordlist alongside the corresponding keys (dice rolls):
 
 ```console
-$ nodice -m -t, -f bare_wordlist.txt | tail
+$ nodice --make-custom -t, -f bare_wordlist.txt | tail
 66656,zombie
 66661,zone
 66662,zoning
