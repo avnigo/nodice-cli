@@ -1,5 +1,6 @@
 venv
 build
+dist
 tests
 *.egg-info
 __pycache__

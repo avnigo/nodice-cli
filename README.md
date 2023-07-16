@@ -4,22 +4,28 @@ A simple [diceware](https://en.wikipedia.org/wiki/Diceware) generator with no de
 
 ## 📦 Setup
 
-### Clone the repository:
+#### From source:
+##### - Clone the repository:
 
 ```
 git clone https://github.com/avnigo/nodice-cli.git && cd nodice-cli
 ```
 
-### [*Optional*] Install `nodice` to path:
+##### - [*Optional*] Install `nodice` to path:
 
 ```pwsh
 python -m pip install .
 ```
 
-#### Otherwise, use as follows inside the `nodice-cli` directory:
+##### - Otherwise, use as follows inside the `nodice-cli` directory:
 
 ```pwsh
 python nodice
+```
+#### Install from package using `pip` or [`pipx`](https://github.com/pypa/pipx):
+
+```pwsh
+pip install nodice-cli
 ```
 
 ## 📖 Usage
