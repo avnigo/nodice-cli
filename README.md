@@ -123,7 +123,7 @@ mountain noble arctic joke hero fruit novel palace quarter genuine rather price
 
 It is possible to use custom wordlists, either delimited alongside their corresponding dice rolls, or simply a bare list of words, as in the examples below respectively.
 
-- For delimited wordlists, the defaults apply (i.e., delimiter and number of sides), otherwise they would need to be passed in as arguments.
+- For *delimited wordlists*, the defaults apply (i.e., delimiter and number of sides), otherwise they would need to be passed in as arguments.
 
 ```
 11111	abacus
@@ -135,7 +135,7 @@ It is possible to use custom wordlists, either delimited alongside their corresp
 ...
 ```
 
-- In the case of a bare wordlist like the one below, dice roll keys for a [perfect-power-length wordlist](https://en.wikipedia.org/wiki/Perfect_power) will be generated when possible using smaller than 10-sided dice, whereas other length wordlists are unhandled for now.
+- In the case of a *bare wordlist* like the one below, dice roll keys for a [perfect-power-length wordlist](https://en.wikipedia.org/wiki/Perfect_power) will be generated when possible using smaller than 10-sided dice, whereas other length wordlists are unhandled for now.
 
 ```
 abacus

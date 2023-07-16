@@ -67,7 +67,7 @@ class Diceware:
 
     @staticmethod
     def find_factor_pairs(wordlist_len: int) -> tuple[int, int]:
-        num_sides, num_dice = min(
+        return min(
             (
                 (sides, dice)
                 for sides, dice in product(
@@ -78,11 +78,24 @@ class Diceware:
             default=(0, 0),
         )
 
+    def get_roll_pair(self, index: int, word: str) -> tuple:
+        if not self.custom_rolls:
+            self.custom_rolls = self.create_custom_rolls()
+        return ("".join(map(str, self.custom_rolls[index])), word)
+
+    def create_custom_rolls(self) -> tuple:
+        self.num_sides, self.num_dice = self.handle_unsupported(
+            *self.find_factor_pairs(len(self.file.read_text().splitlines()))
+        )
+        return tuple(product(range(1, self.num_sides + 1), repeat=self.num_dice))
+
+    def handle_unsupported(self, num_sides, num_dice) -> tuple[int, int]:
+        """Temporary guard function until cases are better implemented."""
         # TODO: Fix case where num_words is not a perfect power (clip to nearest lowest)
-        if num_sides == 0:
+        if num_dice == 0:
             print(
-                f"# Wordlist size ({wordlist_len} words) is not a perfect power, try "
-                "larger or smaller ones instead."
+                "# Non-perfect-power wordlists currently unsupported: wordlist size "
+                "is not a perfect power, try larger or smaller wordlists instead."
             )
             raise SystemExit(1)
 
@@ -90,29 +103,17 @@ class Diceware:
         if num_sides > 9:
             print(
                 f"# Wordlists requiring larger than 9-sided dice currently unsupported:"
-                f" a {wordlist_len}-word list requires {num_sides}-sided dice; try"
-                " larger or smaller wordlists instead."
+                f" a {num_sides**num_dice}-word list requires {num_sides}-sided dice; "
+                "try larger or smaller wordlists instead."
             )
             raise SystemExit(1)
 
         return num_sides, num_dice
 
-    def create_custom_rolls(self) -> tuple:
-        self.num_sides, self.num_dice = self.find_factor_pairs(
-            len(self.file.read_text().splitlines())
-        )
-
-        return tuple(product(range(1, self.num_sides + 1), repeat=self.num_dice))
-
     def print_custom_rolls(self, wordlist: dict) -> None:
         for rolls, word in wordlist.items():
             print(f"{rolls}{self.delimiter}{word}")
         raise SystemExit
-
-    def get_roll_pair(self, index: int, word: str) -> tuple:
-        if not self.custom_rolls:
-            self.custom_rolls = self.create_custom_rolls()
-        return ("".join(map(str, self.custom_rolls[index])), word)
 
     def print_rolled_words(self, rolls, wordlist, spacer) -> None:
         for index, roll in enumerate(rolls):
