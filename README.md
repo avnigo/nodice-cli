@@ -1,6 +1,6 @@
 # 🎲 nodice
 
-A simple diceware generator with no dependencies.
+A simple [diceware](https://en.wikipedia.org/wiki/Diceware) generator with no dependencies.
 
 ## 📦 Setup
 

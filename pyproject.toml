@@ -6,11 +6,12 @@ build-backend = "setuptools.build_meta"
 name = "nodice-cli"
 version = "0.1.0"
 authors = [
-    {name = "avnigo", email = "43263288+avnigo@users.noreply.github.com"},
+    {name = "avnigo"},
 ]
 description = "A simple diceware generator with no dependencies."
 readme = "README.md"
 requires-python = ">=3.8"
+license = {file = "LICENSE"}
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
